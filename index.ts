@@ -6,8 +6,15 @@ const cluster = new digitalocean.KubernetesCluster("do-cluster", {
   nodePool: {
       name: "default",
       size: digitalocean.DropletSlug.DropletS2VCPU2GB,
-      nodeCount: 3,
+      nodeCount: 1,
   },
 });
 
 export const kubeconfig = cluster.kubeConfigs[0].rawConfig;
+
+export const registry = new digitalocean.ContainerRegistry("do-registry", {
+  subscriptionTierSlug: "starter",
+});
+
+export const registryEndpoint = registry.endpoint;
+export const registryUrl = registry.serverUrl;
