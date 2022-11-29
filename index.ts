@@ -1,4 +1,5 @@
 import * as digitalocean from "@pulumi/digitalocean";
+import *  as pulumi from "@pulumi/pulumi";
 
 const cluster = new digitalocean.KubernetesCluster("do-cluster", {
   region: digitalocean.Region.SFO3,
@@ -6,7 +7,7 @@ const cluster = new digitalocean.KubernetesCluster("do-cluster", {
   nodePool: {
       name: "default",
       size: digitalocean.DropletSlug.DropletS2VCPU2GB,
-      nodeCount: 1,
+      nodeCount: 3,
   },
 });
 
@@ -18,3 +19,8 @@ export const registry = new digitalocean.ContainerRegistry("do-registry", {
 
 export const registryEndpoint = registry.endpoint;
 export const registryUrl = registry.serverUrl;
+export const registryName = registry.name;
+
+const config = new pulumi.Config();
+export const registryUser = config.requireSecret("registryUser");
+export const registryPassword = config.requireSecret("registryPassword");
