@@ -16,7 +16,7 @@ export const cluster = new digitalocean.KubernetesCluster("do-cluster", {
 export const kubeconfig = cluster.kubeConfigs[0].rawConfig;
 
 export const registry = new digitalocean.ContainerRegistry("do-registry", {
-  subscriptionTierSlug: "starter",
+  subscriptionTierSlug: "basic",
 });
 
 export const registryEndpoint = registry.endpoint;
